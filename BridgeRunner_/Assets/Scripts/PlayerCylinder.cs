@@ -23,6 +23,13 @@ public class PlayerCylinder : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.CompareTag("Trap"))
+        {
+            IncrementCylinderVolume(-Time.fixedDeltaTime);
+        }
+    }
     public void IncrementCylinderVolume(float value)
     {
         if(cylinders.Count == 0)

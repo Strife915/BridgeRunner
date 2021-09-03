@@ -8,12 +8,12 @@ public class PlayerController : MonoBehaviour
 
     public float runningSpeed;
     public float xSpeed;
-    private float CurrentRunningSpeed;
+    private float _currentRunningSpeed;
     
 
     void Start()
     {
-        CurrentRunningSpeed = runningSpeed;
+        _currentRunningSpeed = runningSpeed;
     }
     void Update()
     {
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         newX = transform.position.x + xSpeed * touchxDelta * Time.deltaTime;
         newX = Mathf.Clamp(newX, -limitX, limitX);
 
-        Vector3 newPosition = new Vector3(newX,transform.position.y, transform.position.z + CurrentRunningSpeed * Time.deltaTime);
+        Vector3 newPosition = new Vector3(newX,transform.position.y, transform.position.z + _currentRunningSpeed * Time.deltaTime);
         transform.position = newPosition;
     }
 }
