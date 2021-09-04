@@ -8,6 +8,10 @@ public class PlayerCylinder : MonoBehaviour
 
     public GameObject ridingCylinderPrefab;
     public List<RidingCylinder> cylinders;
+    public AudioSource cylinderAudioSource;
+    public AudioClip gatherAudioClip, dropAudioClip;
+    public float _dropSoundTimer;
+
 
     private void Start()
     {
@@ -18,6 +22,7 @@ public class PlayerCylinder : MonoBehaviour
     {
         if(other.gameObject.CompareTag("AddCylinder"))
         {
+            cylinderAudioSource.PlayOneShot(gatherAudioClip, 0.1f);
             IncrementCylinderVolume(0.1f);
             Destroy(other.gameObject);
         }
@@ -25,9 +30,13 @@ public class PlayerCylinder : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Trap"))
+        if(LevelController.instance.gameActive)
         {
-            IncrementCylinderVolume(-Time.fixedDeltaTime);
+            if (other.CompareTag("Trap"))
+            {
+                PlayDropSound();
+                IncrementCylinderVolume(-Time.fixedDeltaTime);
+            }
         }
     }
     public void IncrementCylinderVolume(float value)
@@ -40,7 +49,16 @@ public class PlayerCylinder : MonoBehaviour
             }
             else
             {
-                //GameOver
+                if(PlayerFinishEvents.instance._isFinished)
+                {
+                    LevelController.instance.FinishGame();
+                    PlayerBridgeSpawner.instance.SpawningBridge = false;
+                }
+                else
+                {
+                    LevelController.instance.GameOver();
+                    PlayerAnimatons.instance.Die();
+                }
             }
         }
         else
@@ -58,4 +76,14 @@ public class PlayerCylinder : MonoBehaviour
     {
         cylinders.Remove(cylinder);
         Destroy(cylinder.gameObject);    }
+
+    public void PlayDropSound()
+    {
+        _dropSoundTimer -= Time.deltaTime;
+        if(_dropSoundTimer < 0)
+        {
+            _dropSoundTimer = 0.15f;
+            cylinderAudioSource.PlayOneShot(dropAudioClip, 0.1f);
+        }
+    }
 }

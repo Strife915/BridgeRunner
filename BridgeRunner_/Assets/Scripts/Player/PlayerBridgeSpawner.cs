@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class PlayerBridgeSpawner : MonoBehaviour
 {
-    [SerializeField] bool SpawningBridge;
-    private BridgeSpawner _bridgeSpawner;
+    public static PlayerBridgeSpawner instance;
+    public bool SpawningBridge;
+    [SerializeField] BridgeSpawner _bridgeSpawner;
     [SerializeField] PlayerCylinder _playerClinder;
 
     [SerializeField] GameObject _bridgePrefabPeace;
     [SerializeField] float _bridgeSpawnTimer;
 
+    private void Start()
+    {
+        instance = this;
+    }
+
     private void Update()
     {
         if(SpawningBridge)
         {
+            PlayerCylinder.instance.PlayDropSound();
             _bridgeSpawnTimer -= Time.deltaTime;
             if(_bridgeSpawnTimer < 0)
             {
@@ -44,6 +51,10 @@ public class PlayerBridgeSpawner : MonoBehaviour
         else if(other.CompareTag("StopSpawnBridge"))
         {
             StopSpawningBridge();
+            if(PlayerFinishEvents.instance._isFinished)
+            {
+                LevelController.instance.FinishGame();
+            }
         }
     }
 
