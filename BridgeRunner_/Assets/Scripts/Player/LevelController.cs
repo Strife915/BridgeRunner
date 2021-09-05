@@ -12,7 +12,7 @@ public class LevelController : MonoBehaviour
     int currentLevel;
 
     public GameObject startMenu, gameMenu, gameOverMenu, finishMenu;
-    public Text scoreText, finishScoreText, currentLevelText, nextLevelText;
+    public Text scoreText, finishScoreText, currentLevelText, nextLevelText, startingMenuMoneyText, gameoverMenuMoneyText, finishGameMenuMoneyText;
     public Slider levelProgressBar;
     public float maxDistance;
     public GameObject finishLine;
@@ -32,6 +32,7 @@ public class LevelController : MonoBehaviour
         {
             currentLevelText.text = (currentLevel + 1).ToString();
             nextLevelText.text = (currentLevel + 2).ToString();
+            UpdateMoneyText();
         }
     }
     private void Update()
@@ -62,6 +63,7 @@ public class LevelController : MonoBehaviour
     }
     public void GameOver()
     {
+        UpdateMoneyText();
         gameMusicAudioSource.Stop();
         gameMusicAudioSource.PlayOneShot(gameOverClip);
         gameMenu.SetActive(false);
@@ -70,6 +72,7 @@ public class LevelController : MonoBehaviour
     }
     public void FinishGame()
     {
+        GiveMoneyToPlayer(PlayerScore.instance.score);
         gameMusicAudioSource.Stop();
         gameMusicAudioSource.PlayOneShot(victoryClip);
         PlayerPrefs.SetInt("currentLevel", currentLevel + 1);
@@ -77,5 +80,19 @@ public class LevelController : MonoBehaviour
         gameMenu.SetActive(false);
         finishMenu.SetActive(true);
         gameActive = false;
+    }
+    public void UpdateMoneyText()
+    {
+        int money = PlayerPrefs.GetInt("money");
+        startingMenuMoneyText.text = PlayerPrefs.GetInt("money").ToString();
+        gameoverMenuMoneyText.text = PlayerPrefs.GetInt("money").ToString();
+        finishGameMenuMoneyText.text = PlayerPrefs.GetInt("money").ToString();
+    }
+    public void GiveMoneyToPlayer(int increment)
+    {
+        int money = PlayerPrefs.GetInt("money");
+        money = Mathf.Max(0, money + increment);
+        PlayerPrefs.SetInt("money", money);
+        UpdateMoneyText();
     }
 }
