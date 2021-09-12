@@ -18,6 +18,7 @@ public class LevelController : MonoBehaviour
     public GameObject finishLine;
     public AudioSource gameMusicAudioSource;
     public AudioClip victoryClip, gameOverClip;
+    public DailyReward dailyReward;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class LevelController : MonoBehaviour
         }
         else
         {
+            dailyReward.InitiakizeDailyReward();
             currentLevelText.text = (currentLevel + 1).ToString();
             nextLevelText.text = (currentLevel + 2).ToString();
             UpdateMoneyText();

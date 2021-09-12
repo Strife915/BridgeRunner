@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private float _currentRunningSpeed;
     private float _lastTouchedX;
 
+
     void Start()
     {
         instance = this;
