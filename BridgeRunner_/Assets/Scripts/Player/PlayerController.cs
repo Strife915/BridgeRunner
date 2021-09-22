@@ -13,10 +13,7 @@ public class PlayerController : MonoBehaviour
     private float _lastTouchedX;
 
 
-    void Start()
-    {
-        instance = this;
-    }
+  
     void Update()
     {
         if(LevelController.instance == null || !LevelController.instance.gameActive)

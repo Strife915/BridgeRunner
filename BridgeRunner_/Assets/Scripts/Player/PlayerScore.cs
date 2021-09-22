@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class PlayerScore : MonoBehaviour
 {
     public static PlayerScore instance;
-    public AudioSource triggerAudioSource;
-    public AudioClip coinSoundClip;
+    //public AudioSource triggerAudioSource;
+    //public AudioClip coinSoundClip;
     float _scoreTimer = 0;
 
     public int score;
@@ -32,7 +32,7 @@ public class PlayerScore : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Coin"))
         {
-            triggerAudioSource.PlayOneShot(coinSoundClip,0.1f);
+            PlayerSounds.instance.PlayCoinSoundClip();
             other.tag = "Untagged";
             ChangeScore(10);
             Destroy(other.gameObject);

@@ -21,7 +21,7 @@ public class PlayerBridgeSpawner : MonoBehaviour
     {
         if(SpawningBridge)
         {
-            PlayerCylinder.instance.PlayDropSound();
+            PlayerSounds.instance.PlayDropAudioClip();
             _bridgeSpawnTimer -= Time.deltaTime;
             if(_bridgeSpawnTimer < 0)
             {

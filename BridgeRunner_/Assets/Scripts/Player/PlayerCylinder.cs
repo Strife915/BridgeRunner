@@ -8,9 +8,7 @@ public class PlayerCylinder : MonoBehaviour
 
     public GameObject ridingCylinderPrefab;
     public List<RidingCylinder> cylinders;
-    public AudioSource cylinderAudioSource;
-    public AudioClip gatherAudioClip, dropAudioClip;
-    public float _dropSoundTimer;
+    
 
 
     private void Start()
@@ -22,8 +20,15 @@ public class PlayerCylinder : MonoBehaviour
     {
         if(other.gameObject.CompareTag("AddCylinder"))
         {
-            cylinderAudioSource.PlayOneShot(gatherAudioClip, 0.1f);
+            PlayerSounds.instance.PlayGatherAudioClip();
             IncrementCylinderVolume(0.1f);
+            Destroy(other.gameObject);
+        }
+        else if(other.gameObject.CompareTag("Coin"))
+        {
+            PlayerSounds.instance.PlayCoinSoundClip();
+            PlayerScore.instance.ChangeScore(10);
+            other.tag = "Untagged";
             Destroy(other.gameObject);
         }
     }
@@ -34,7 +39,7 @@ public class PlayerCylinder : MonoBehaviour
         {
             if (other.CompareTag("Trap"))
             {
-                PlayDropSound();
+                PlayerSounds.instance.PlayDropAudioClip();
                 IncrementCylinderVolume(-Time.fixedDeltaTime);
             }
         }
@@ -77,13 +82,5 @@ public class PlayerCylinder : MonoBehaviour
         cylinders.Remove(cylinder);
         Destroy(cylinder.gameObject);    }
 
-    public void PlayDropSound()
-    {
-        _dropSoundTimer -= Time.deltaTime;
-        if(_dropSoundTimer < 0)
-        {
-            _dropSoundTimer = 0.15f;
-            cylinderAudioSource.PlayOneShot(dropAudioClip, 0.1f);
-        }
-    }
+    
 }

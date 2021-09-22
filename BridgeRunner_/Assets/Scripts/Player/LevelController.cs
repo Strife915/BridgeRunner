@@ -31,10 +31,13 @@ public class LevelController : MonoBehaviour
         }
         else
         {
+            PlayerController.instance = GameObject.FindObjectOfType<PlayerController>();
+            GameObject.FindObjectOfType<MarketController>().InitializeMarketController();
             dailyReward.InitiakizeDailyReward();
             currentLevelText.text = (currentLevel + 1).ToString();
             nextLevelText.text = (currentLevel + 2).ToString();
             UpdateMoneyText();
+            GiveMoneyToPlayer(3000);
         }
     }
     private void Update()
