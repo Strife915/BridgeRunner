@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
             }
             else if(Input.GetTouch(0).phase == TouchPhase.Moved)
             {
-                touchxDelta =2 * (_lastTouchedX-Input.GetTouch(0).position.x) / Screen.width;
+                touchxDelta =2 * (Input.GetTouch(0).position.x - _lastTouchedX) / Screen.width;
             }
             
         }

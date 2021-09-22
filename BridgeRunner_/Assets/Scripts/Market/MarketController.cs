@@ -22,4 +22,8 @@ public class MarketController : MonoBehaviour
     {
         marketMenu.SetActive(active);
     }
+    public void DeActivateMarketMenu(bool active)
+    {
+        marketMenu.SetActive(!active);
+    }
 }

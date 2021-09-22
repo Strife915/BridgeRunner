@@ -27,7 +27,8 @@ public class PlayerBridgeSpawner : MonoBehaviour
             {
                 _bridgeSpawnTimer = 0.01f;
                 _playerClinder.IncrementCylinderVolume(-0.01f);
-                GameObject createdPeace = Instantiate(_bridgePrefabPeace);
+                GameObject createdPeace = Instantiate(_bridgePrefabPeace,this.transform);
+                createdPeace.transform.SetParent(null);
                 Vector3 direction = _bridgeSpawner.endReference.transform.position - _bridgeSpawner.startReference.transform.position;
                 float distance = direction.magnitude;
                 direction = direction.normalized;
